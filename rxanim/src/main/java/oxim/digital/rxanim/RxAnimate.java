@@ -4,7 +4,6 @@ import android.animation.ValueAnimator;
 
 import io.reactivex.Completable;
 import io.reactivex.CompletableSource;
-import io.reactivex.functions.Consumer;
 
 public class RxAnimate {
 
@@ -12,8 +11,8 @@ public class RxAnimate {
         return Completable.mergeArray(completables);
     }
 
-    public static RxValueAnimatorCompletable from(final ValueAnimator valueAnimator, final Consumer<ValueAnimator> valueUpdateAction) {
-        return new RxValueAnimatorCompletable(valueAnimator, valueUpdateAction);
+    public static RxAnimatorCompletable from(final ValueAnimator valueAnimator) {
+        return new RxAnimatorCompletable(valueAnimator);
     }
 
 }
