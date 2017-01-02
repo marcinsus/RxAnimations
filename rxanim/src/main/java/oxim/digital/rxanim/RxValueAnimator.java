@@ -6,7 +6,7 @@ import io.reactivex.functions.Consumer;
 
 public class RxValueAnimator {
 
-    public static RxValueAnimatorCompletable from(final ValueAnimator valueAnimator, final Consumer<ValueAnimator> valueUpdateAction) {
+    public static RxValueAnimatorCompletable animate(final ValueAnimator valueAnimator, final Consumer<ValueAnimator> valueUpdateAction) {
         return new RxValueAnimatorCompletable(valueAnimator, valueUpdateAction);
     }
 

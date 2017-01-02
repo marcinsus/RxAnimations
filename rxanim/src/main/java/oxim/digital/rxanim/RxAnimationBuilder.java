@@ -6,7 +6,6 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 import io.reactivex.Completable;
@@ -50,7 +49,6 @@ public final class RxAnimationBuilder {
     private RxAnimationBuilder(final View view, final int duration, final int delay,
                                final Interpolator interpolator) {
         this.view = view;
-        this.preTransformActions = new ArrayList<>();
         this.animateActions = new ArrayList<>();
 
         this.animateActions.add(animate -> animate.setDuration(duration)
@@ -58,7 +56,6 @@ public final class RxAnimationBuilder {
                 .setInterpolator(interpolator));
     }
 
-    private final List<Consumer<ViewPropertyAnimatorCompat>> preTransformActions;
     private final List<Consumer<ViewPropertyAnimatorCompat>> animateActions;
     private final View view;
 
@@ -78,7 +75,6 @@ public final class RxAnimationBuilder {
     }
 
     public RxAnimationBuilder fadeIn() {
-        preTransformActions.add(preTransform -> preTransform.alpha(0f));
         animateActions.add(animate -> animate.alpha(OPAQUE));
         return this;
     }
@@ -89,43 +85,36 @@ public final class RxAnimationBuilder {
     }
 
     public RxAnimationBuilder rotate(final float rotation) {
-        preTransformActions.add(preTransform -> preTransform.rotation(rotation));
-        animateActions.add(animate -> animate.rotation(0));
+        animateActions.add(animate -> animate.rotation(rotation));
         return this;
     }
 
     public RxAnimationBuilder rotateBy(final float rotation) {
-        preTransformActions.add(preTransform -> preTransform.rotationBy(rotation));
         animateActions.add(animate -> animate.rotationBy(rotation));
         return this;
     }
 
     public RxAnimationBuilder translateX(final int dX) {
-        preTransformActions.add(preTransform -> preTransform.xBy(-dX));
         animateActions.add(animate -> animate.xBy(dX));
         return this;
     }
 
     public RxAnimationBuilder translateY(final int dY) {
-        preTransformActions.add(preTransform -> preTransform.yBy(-dY));
         animateActions.add(animate -> animate.yBy(dY));
         return this;
     }
 
     public RxAnimationBuilder elevationBy(final int dZ) {
-        preTransformActions.add(preTransform -> preTransform.zBy(-dZ));
         animateActions.add(animate -> animate.zBy(dZ));
         return this;
     }
 
     public RxAnimationBuilder translateBy(final int dX, final int dY) {
-        preTransformActions.add(preTransform -> preTransform.xBy(-dX).yBy(-dY));
         animateActions.add(animate -> animate.xBy(dX).yBy(dY));
         return this;
     }
 
     public RxAnimationBuilder translateBy(final int dX, final int dY, final int dZ) {
-        preTransformActions.add(preTransform -> preTransform.xBy(-dX).yBy(-dY).zBy(-dZ));
         animateActions.add(animate -> animate.xBy(dX).yBy(dY).zBy(dZ));
         return this;
     }
@@ -145,12 +134,8 @@ public final class RxAnimationBuilder {
         return this;
     }
 
-    public Completable schedule() {
-        return new AnimateCompletable(view, preTransformActions, animateActions);
-    }
-
-    public Completable schedule(final boolean preTransform) {
-        return new AnimateCompletable(view, preTransform ? preTransformActions : null, animateActions);
+    public Completable build() {
+        return new AnimateCompletable(view, animateActions);
     }
 
     private static Interpolator defaultInterpolator() {

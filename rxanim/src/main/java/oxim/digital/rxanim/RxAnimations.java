@@ -20,7 +20,7 @@ public final class RxAnimations {
     private static final int IMMEDIATE = 0;
 
     public static Completable hide(final View view) {
-        return animate(view, IMMEDIATE).fadeOut().schedule();
+        return animate(view, IMMEDIATE).fadeOut().build();
     }
 
     public static Completable hide(final View... views) {
@@ -51,27 +51,27 @@ public final class RxAnimations {
     public static Completable show(final View view) {
         return animate(view, IMMEDIATE)
                 .fadeIn()
-                .schedule();
+                .build();
     }
 
     public static Completable fadeIn(final View view) {
         return animate(view)
                 .fadeIn()
-                .schedule();
+                .build();
     }
 
     public static Completable fadeIn(final View view, final int duration) {
         return animate(view, new DecelerateInterpolator())
                 .duration(duration)
                 .fadeIn()
-                .schedule();
+                .build();
     }
 
     public static Completable fadeIn(final View view, final int duration, final int delay) {
         return animate(view, duration, delay)
                 .interpolator(new DecelerateInterpolator())
                 .fadeIn()
-                .schedule();
+                .build();
     }
 
     public static Completable fadeInWithDelay(final int delay, final int duration, final View... views) {
@@ -79,21 +79,21 @@ public final class RxAnimations {
                 .flatMapCompletable(i -> animate(views[i], new LinearInterpolator())
                         .duration(duration)
                         .delay(i * delay)
-                        .fadeIn().schedule());
+                        .fadeIn().build());
     }
 
     public static Completable slideIn(final View view, final int duration, final int xOffset) {
         return animate(view, new DecelerateInterpolator())
                 .duration(duration)
                 .translateBy(xOffset, 0)
-                .schedule();
+                .build();
     }
 
     public static Completable enter(final View view, final int xOffset, final int yOffset) {
         return animate(view, new DecelerateInterpolator())
                 .fadeIn()
                 .translateBy(xOffset, yOffset)
-                .schedule();
+                .build();
     }
 
     public static Completable enter(final View view, final int delay, final int xOffset, final int yOffset) {
@@ -101,7 +101,7 @@ public final class RxAnimations {
                 .delay(delay)
                 .fadeIn()
                 .translateBy(xOffset, yOffset)
-                .schedule();
+                .build();
     }
 
     public static Completable enter(final View view, final int duration, final int xOffset, final int yOffset, final int delay) {
@@ -109,7 +109,7 @@ public final class RxAnimations {
                 .interpolator(new DecelerateInterpolator())
                 .fadeIn()
                 .translateBy(xOffset, yOffset)
-                .schedule();
+                .build();
     }
 
     public static Completable enterTogether(final int delay, final int xOffset, final View... views) {
@@ -118,7 +118,7 @@ public final class RxAnimations {
                         .delay(delay)
                         .fadeIn()
                         .translateBy(xOffset, 0)
-                        .schedule());
+                        .build());
     }
 
     public static Completable enterViewsWithDelay(final int delay, final int duration, final int xOffset, final View... views) {
@@ -135,14 +135,14 @@ public final class RxAnimations {
                 .fadeIn()
                 .rotate(rotation)
                 .translateBy(xOffset, yOffset)
-                .schedule();
+                .build();
     }
 
     public static Completable leave(final View view, final int xOffset, final int yOffset) {
         return animate(view, new AccelerateInterpolator())
                 .fadeOut()
                 .translateBy(-xOffset, -yOffset)
-                .schedule();
+                .build();
     }
 
     public static Completable doAfterDelay(final int delay, final Action action) {

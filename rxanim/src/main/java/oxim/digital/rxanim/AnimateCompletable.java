@@ -1,6 +1,5 @@
 package oxim.digital.rxanim;
 
-import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorCompat;
 import android.view.View;
@@ -16,17 +15,12 @@ import static io.reactivex.android.MainThreadDisposable.verifyMainThread;
 
 final class AnimateCompletable extends Completable {
 
-    private static final int NONE = 0;
-
     private final View view;
-    private final List<Consumer<ViewPropertyAnimatorCompat>> preTransformActions;
     private final List<Consumer<ViewPropertyAnimatorCompat>> animationActions;
 
     AnimateCompletable(View view,
-                       @Nullable final List<Consumer<ViewPropertyAnimatorCompat>> preAnimationActions,
                        final List<Consumer<ViewPropertyAnimatorCompat>> animationActions) {
         this.view = view;
-        this.preTransformActions = preAnimationActions;
         this.animationActions = animationActions;
     }
 
@@ -36,25 +30,7 @@ final class AnimateCompletable extends Completable {
         final ViewPropertyAnimatorCompat animator = ViewCompat.animate(view);
         Listener listener = new Listener(animator);
         completableObserver.onSubscribe(listener);
-
-        if (preTransformActions != null) {
-            applyActions(animator);
-            animator.setDuration(NONE)
-                    .setStartDelay(NONE)
-                    .withEndAction(() -> callAnimateActions(completableObserver, animator))
-                    .start();
-        } else {
-            callAnimateActions(completableObserver, animator);
-        }
-    }
-
-    private void applyActions(ViewPropertyAnimatorCompat animator) {
-        for (final Consumer<ViewPropertyAnimatorCompat> action1 : preTransformActions) {
-            try {
-                action1.accept(animator);
-            } catch (Exception ignore1) {
-            }
-        }
+        callAnimateActions(completableObserver, animator);
     }
 
     private void callAnimateActions(CompletableObserver completableObserver, ViewPropertyAnimatorCompat animator) {
@@ -67,7 +43,6 @@ final class AnimateCompletable extends Completable {
         }
         animator.withEndAction(completableObserver::onComplete).start();
     }
-
 
     private static class Listener extends MainThreadDisposable {
         private final ViewPropertyAnimatorCompat animator;
