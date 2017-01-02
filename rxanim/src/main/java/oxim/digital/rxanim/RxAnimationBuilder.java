@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -49,17 +50,17 @@ public final class RxAnimationBuilder {
     private RxAnimationBuilder(final View view, final int duration, final int delay,
                                final Interpolator interpolator) {
         this.view = view;
-        this.preTransformActions = new LinkedList<>();
-        this.animateActions = new LinkedList<>();
+        this.preTransformActions = new ArrayList<>();
+        this.animateActions = new ArrayList<>();
 
         this.animateActions.add(animate -> animate.setDuration(duration)
                 .setStartDelay(delay)
                 .setInterpolator(interpolator));
     }
 
-    final List<Consumer<ViewPropertyAnimatorCompat>> preTransformActions;
-    final List<Consumer<ViewPropertyAnimatorCompat>> animateActions;
-    final View view;
+    private final List<Consumer<ViewPropertyAnimatorCompat>> preTransformActions;
+    private final List<Consumer<ViewPropertyAnimatorCompat>> animateActions;
+    private final View view;
 
     public RxAnimationBuilder duration(final int duration) {
         animateActions.add(animate -> animate.setDuration(duration));
