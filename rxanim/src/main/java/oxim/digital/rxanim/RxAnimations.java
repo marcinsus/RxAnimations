@@ -20,7 +20,7 @@ public final class RxAnimations {
     private static final int IMMEDIATE = 0;
 
     public static Completable hide(final View view) {
-        return animate(view, IMMEDIATE).fadeOut().build();
+        return animate(view).fadeOut().build();
     }
 
     public static Completable hide(final View... views) {
@@ -49,7 +49,7 @@ public final class RxAnimations {
     }
 
     public static Completable show(final View view) {
-        return animate(view, IMMEDIATE)
+        return animate(view)
                 .fadeIn()
                 .build();
     }

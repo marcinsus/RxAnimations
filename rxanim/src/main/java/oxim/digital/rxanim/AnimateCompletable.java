@@ -10,16 +10,17 @@ import io.reactivex.Completable;
 import io.reactivex.CompletableObserver;
 import io.reactivex.android.MainThreadDisposable;
 import io.reactivex.functions.Consumer;
+import oxim.digital.rxanim.koko.valueanimator.KokoViewPropertyAnimator;
 
 import static io.reactivex.android.MainThreadDisposable.verifyMainThread;
 
 final class AnimateCompletable extends Completable {
 
     private final View view;
-    private final List<Consumer<ViewPropertyAnimatorCompat>> animationActions;
+    private final List<Consumer<KokoViewPropertyAnimator>> animationActions;
 
     AnimateCompletable(View view,
-                       final List<Consumer<ViewPropertyAnimatorCompat>> animationActions) {
+                       final List<Consumer<KokoViewPropertyAnimator>> animationActions) {
         this.view = view;
         this.animationActions = animationActions;
     }
@@ -34,7 +35,7 @@ final class AnimateCompletable extends Completable {
     }
 
     private void callAnimateActions(CompletableObserver completableObserver, ViewPropertyAnimatorCompat animator) {
-        for (final Consumer<ViewPropertyAnimatorCompat> action : animationActions) {
+        for (final Consumer<KokoViewPropertyAnimator> action : animationActions) {
             try {
                 action.accept(animator);
             } catch (Exception e) {
