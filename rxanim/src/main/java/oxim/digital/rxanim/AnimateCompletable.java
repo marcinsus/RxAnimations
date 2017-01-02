@@ -14,7 +14,7 @@ import io.reactivex.functions.Consumer;
 
 import static io.reactivex.android.MainThreadDisposable.verifyMainThread;
 
-public final class AnimateCompletable extends Completable {
+final class AnimateCompletable extends Completable {
 
     private static final int NONE = 0;
 
@@ -22,9 +22,9 @@ public final class AnimateCompletable extends Completable {
     private final List<Consumer<ViewPropertyAnimatorCompat>> preTransformActions;
     private final List<Consumer<ViewPropertyAnimatorCompat>> animationActions;
 
-    public AnimateCompletable(View view,
-                              @Nullable final List<Consumer<ViewPropertyAnimatorCompat>> preAnimationActions,
-                              final List<Consumer<ViewPropertyAnimatorCompat>> animationActions) {
+    AnimateCompletable(View view,
+                       @Nullable final List<Consumer<ViewPropertyAnimatorCompat>> preAnimationActions,
+                       final List<Consumer<ViewPropertyAnimatorCompat>> animationActions) {
         this.view = view;
         this.preTransformActions = preAnimationActions;
         this.animationActions = animationActions;
@@ -69,7 +69,7 @@ public final class AnimateCompletable extends Completable {
     }
 
 
-    private class Listener extends MainThreadDisposable {
+    private static class Listener extends MainThreadDisposable {
         private final ViewPropertyAnimatorCompat animator;
 
         private Listener(ViewPropertyAnimatorCompat propertyAnimator) {

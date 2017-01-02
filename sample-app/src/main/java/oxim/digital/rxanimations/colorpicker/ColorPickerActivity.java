@@ -17,7 +17,7 @@ import io.reactivex.Completable;
 import io.reactivex.subjects.BehaviorSubject;
 import oxim.digital.rxanimations.R;
 
-import static oxim.digital.rxanim.RxAnimations.animateTogether;
+import static oxim.digital.rxanim.RxAnimate.animateTogether;
 import static oxim.digital.rxanim.RxAnimations.enterViewsWithDelay;
 import static oxim.digital.rxanim.RxAnimations.enterWithRotation;
 import static oxim.digital.rxanim.RxAnimations.fadeIn;
