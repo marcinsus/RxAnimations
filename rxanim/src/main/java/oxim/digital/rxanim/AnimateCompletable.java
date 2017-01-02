@@ -38,18 +38,22 @@ public final class AnimateCompletable extends Completable {
         completableObserver.onSubscribe(listener);
 
         if (preTransformActions != null) {
-            for (final Consumer<ViewPropertyAnimatorCompat> action1 : preTransformActions) {
-                try {
-                    action1.accept(animator);
-                } catch (Exception ignore1) {
-                }
-            }
+            applyActions(animator);
             animator.setDuration(NONE)
                     .setStartDelay(NONE)
                     .withEndAction(() -> callAnimateActions(completableObserver, animator))
                     .start();
         } else {
             callAnimateActions(completableObserver, animator);
+        }
+    }
+
+    private void applyActions(ViewPropertyAnimatorCompat animator) {
+        for (final Consumer<ViewPropertyAnimatorCompat> action1 : preTransformActions) {
+            try {
+                action1.accept(animator);
+            } catch (Exception ignore1) {
+            }
         }
     }
 

@@ -9,7 +9,6 @@ import android.view.animation.LinearInterpolator;
 import java.util.concurrent.TimeUnit;
 
 import io.reactivex.Completable;
-import io.reactivex.CompletableSource;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Action;
@@ -19,10 +18,6 @@ import static oxim.digital.rxanim.RxAnimationBuilder.animate;
 public final class RxAnimations {
 
     private static final int IMMEDIATE = 0;
-
-    public static Completable animateTogether(final CompletableSource... completables) {
-        return Completable.mergeArray(completables);
-    }
 
     public static Completable hide(final View view) {
         return animate(view, IMMEDIATE).fadeOut().schedule();
