@@ -4,10 +4,13 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import java.util.concurrent.TimeUnit;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Completable;
+import io.reactivex.Observable;
 import oxim.digital.rxanim.RxAnimations;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,8 +27,9 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.root_view)
     public void animateSampleView() {
-        final Completable rxValueAnimator = Completable.mergeArray(RxAnimations.rotateBy(sampleView, 10), RxAnimations.rotateBy(sampleView, 50))
-                .andThen(RxAnimations.rotateBy(sampleView, 160))
+        final Completable rxValueAnimator = Completable.mergeArray(RxAnimations.rotateBy(sampleView, 10),
+                RxAnimations.rotateBy(sampleView, -180)
+                        .delay(5, TimeUnit.SECONDS))
                 .repeat();
 
         rxValueAnimator.subscribe();

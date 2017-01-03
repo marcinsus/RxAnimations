@@ -1,6 +1,7 @@
 package oxim.digital.rxanim;
 
 import android.view.View;
+import android.view.animation.LinearInterpolator;
 
 import io.reactivex.Completable;
 import oxim.digital.rxanim.koko.valueanimator.FadeInKoko;
@@ -20,6 +21,12 @@ public final class RxAnimations {
     public static Completable rotateBy(final View view, final float value) {
         return animate(view)
                 .addAnimator(new RotateByAnimator(value))
+                .build();
+    }
+
+    public static Completable rotateBy(final View view, final int duration, final float value) {
+        return animate(view)
+                .addAnimator(new RotateByAnimator(duration, new LinearInterpolator(), value))
                 .build();
     }
 
