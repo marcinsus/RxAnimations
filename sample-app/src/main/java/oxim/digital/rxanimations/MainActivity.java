@@ -8,8 +8,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import io.reactivex.Completable;
-import oxim.digital.rxanim.RxAnimationBuilder;
-import oxim.digital.rxanim.koko.valueanimator.RotateByAnimator;
+import oxim.digital.rxanim.RxAnimations;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,10 +24,8 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick(R.id.root_view)
     public void animateSampleView() {
-        final Completable rxValueAnimator = RxAnimationBuilder.animate(sampleView).rotateBy(10).build()
-                .andThen(RxAnimationBuilder.animate(sampleView).addAnimator(new RotateByAnimator(50)).build())
-                .andThen(RxAnimationBuilder.animate(sampleView).rotateBy(-20).build())
-                .andThen(RxAnimationBuilder.animate(sampleView).rotateBy(10).build())
+        final Completable rxValueAnimator = Completable.mergeArray(RxAnimations.rotateBy(sampleView, 10), RxAnimations.rotateBy(sampleView, 50))
+                .andThen(RxAnimations.rotateBy(sampleView, 160))
                 .repeat();
 
         rxValueAnimator.subscribe();

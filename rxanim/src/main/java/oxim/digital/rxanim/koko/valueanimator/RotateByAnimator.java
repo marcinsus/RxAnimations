@@ -1,9 +1,10 @@
 package oxim.digital.rxanim.koko.valueanimator;
 
 import android.support.v4.view.ViewPropertyAnimatorCompat;
+import android.support.v7.view.ViewPropertyAnimatorCompatSet;
 import android.view.View;
 
-public class RotateByAnimator extends KokoViewPropertyAnimator {
+public class RotateByAnimator extends KokoAnimator {
 
     private final float value;
 

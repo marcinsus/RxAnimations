@@ -1,5 +1,6 @@
 package oxim.digital.rxanim;
 
+import android.support.v4.view.ViewPropertyAnimatorCompat;
 import android.view.View;
 
 import java.util.ArrayList;
@@ -7,10 +8,11 @@ import java.util.List;
 
 import io.reactivex.Completable;
 import io.reactivex.functions.Consumer;
-import oxim.digital.rxanim.koko.valueanimator.KokoViewPropertyAnimator;
+import oxim.digital.rxanim.koko.valueanimator.KokoAnimator;
 
 public final class RxAnimationBuilder {
-    private final List<Consumer<KokoViewPropertyAnimator>> animateActions;
+    private final List<Consumer<ViewPropertyAnimatorCompat>> animateActions = new ArrayList<>();
+
     private final View view;
 
     public static RxAnimationBuilder animate(final View view) {
@@ -19,12 +21,10 @@ public final class RxAnimationBuilder {
 
     private RxAnimationBuilder(final View view) {
         this.view = view;
-        this.animateActions = new ArrayList<>();
-        this.animateActions.add(animate -> animate.animator(view));
     }
 
-    public RxAnimationBuilder addAnimator(final KokoViewPropertyAnimator propertyAnimator) {
-        propertyAnimator.animator(view);
+    public RxAnimationBuilder addAnimator(final KokoAnimator propertyAnimator) {
+        animateActions.add(viewPropertyAnimatorCompat -> propertyAnimator.animator(view));
         return this;
     }
 
